@@ -11,51 +11,51 @@ using namespace cv;
 using namespace cv::dnn;
 using namespace std;
 
-// ´ÓCSVÎÄ¼ş¶ÁÈ¡ImageNetÀà±ğÓ³Éä
+// ä»CSVæ–‡ä»¶è¯»å–ImageNetç±»åˆ«æ˜ å°„
 unordered_map<int, string> readImageNetLabelsFromCSV(const string& csv_path) {
     unordered_map<int, string> idx_to_labels;
     ifstream file(csv_path);
 
     if (!file.is_open()) {
-        cerr << "´íÎó: ÎŞ·¨´ò¿ªCSVÎÄ¼ş " << csv_path << endl;
+        cerr << "é”™è¯¯: æ— æ³•æ‰“å¼€CSVæ–‡ä»¶ " << csv_path << endl;
         return idx_to_labels;
     }
 
     string line;
-    // Ìø¹ı±íÍ·
+    // è·³è¿‡è¡¨å¤´
     getline(file, line);
 
-    // ÖğĞĞ¶ÁÈ¡
+    // é€è¡Œè¯»å–
     while (getline(file, line)) {
         stringstream ss(line);
         string id_str, class_name;
 
-        // ·Ö¸îIDºÍÀà±ğÃû³Æ
+        // åˆ†å‰²IDå’Œç±»åˆ«åç§°
         if (getline(ss, id_str, ',') && getline(ss, class_name)) {
             try {
                 int id = stoi(id_str);
                 idx_to_labels[id] = class_name;
             }
             catch (const invalid_argument& e) {
-                cerr << "¾¯¸æ: ÎŞĞ§µÄID¸ñÊ½ÔÚCSVĞĞ: " << line << endl;
+                cerr << "è­¦å‘Š: æ— æ•ˆçš„IDæ ¼å¼åœ¨CSVè¡Œ: " << line << endl;
             }
             catch (const out_of_range& e) {
-                cerr << "¾¯¸æ: ID³¬³ö·¶Î§ÔÚCSVĞĞ: " << line << endl;
+                cerr << "è­¦å‘Š: IDè¶…å‡ºèŒƒå›´åœ¨CSVè¡Œ: " << line << endl;
             }
         }
     }
 
     file.close();
-    cout << "³É¹¦´ÓCSV¶ÁÈ¡ " << idx_to_labels.size() << " ¸öÀà±ğ±êÇ©" << endl;
+    cout << "æˆåŠŸä»CSVè¯»å– " << idx_to_labels.size() << " ä¸ªç±»åˆ«æ ‡ç­¾" << endl;
     return idx_to_labels;
 }
 
-// ×Ô¶¨Òåsoftmaxº¯Êı½«logits×ª»»Îª¸ÅÂÊ
+// è‡ªå®šä¹‰softmaxå‡½æ•°å°†logitsè½¬æ¢ä¸ºæ¦‚ç‡
 void softmax(const Mat& input, Mat& output) {
     Mat exp_output;
     double max_val;
     minMaxLoc(input, nullptr, &max_val);
-    subtract(input, max_val, exp_output); // ¼õÈ¥×î´óÖµ±ÜÃâÒç³ö
+    subtract(input, max_val, exp_output); // å‡å»æœ€å¤§å€¼é¿å…æº¢å‡º
     exp(exp_output, exp_output);
 
     double sum_val = sum(exp_output)[0];
@@ -64,81 +64,81 @@ void softmax(const Mat& input, Mat& output) {
 }
 
 int main() {
-    // ÉèÖÃ¿ØÖÆÌ¨±àÂëÎªUTF-8
+    // è®¾ç½®æ§åˆ¶å°ç¼–ç ä¸ºUTF-8
     system("chcp 65001 > nul");
 
-    // Â·¾¶ÉèÖÃ
-    string model_path = "E:/opencvÍÆÀí/tuilimoxing/resnet18_imagenet (1).onnx";
-    string image_path = "E:/opencvÍÆÀí/tuilimoxing/banana1.jpg";
-    string csv_path = "E:/opencvÍÆÀí/tuilimoxing/imagenet_class_index.csv";
+    // è·¯å¾„è®¾ç½®
+    string model_path = "";//æ¨¡å‹åœ°å€
+    string image_path = "";//æµ‹è¯•å›¾ç‰‡åœ°å€
+    string csv_path = "";//å¯¹ç…§ç´¢å¼•åœ°å€
 
-    // 1. ¼ÓÔØCSVÀà±ğÓ³Éä
-    cout << "ÕıÔÚ¶ÁÈ¡Àà±ğ±êÇ©CSVÎÄ¼ş..." << endl;
+    // 1. åŠ è½½CSVç±»åˆ«æ˜ å°„
+    cout << "æ­£åœ¨è¯»å–ç±»åˆ«æ ‡ç­¾CSVæ–‡ä»¶..." << endl;
     unordered_map<int, string> labels = readImageNetLabelsFromCSV(csv_path);
 
     if (labels.empty()) {
-        cerr << "¾¯¸æ: Î´¼ÓÔØµ½ÈÎºÎÀà±ğ±êÇ©!" << endl;
+        cerr << "è­¦å‘Š: æœªåŠ è½½åˆ°ä»»ä½•ç±»åˆ«æ ‡ç­¾!" << endl;
     }
 
-    // 2. ¼ÓÔØONNXÄ£ĞÍ
-    cout << "ÕıÔÚ¼ÓÔØONNXÄ£ĞÍ..." << endl;
+    // 2. åŠ è½½ONNXæ¨¡å‹
+    cout << "æ­£åœ¨åŠ è½½ONNXæ¨¡å‹..." << endl;
     Net net = readNetFromONNX(model_path);
 
     if (net.empty()) {
-        cerr << "´íÎó: ÎŞ·¨¼ÓÔØÄ£ĞÍ!" << endl;
+        cerr << "é”™è¯¯: æ— æ³•åŠ è½½æ¨¡å‹!" << endl;
         return -1;
     }
-    cout << "Ä£ĞÍ¼ÓÔØ³É¹¦!" << endl;
+    cout << "æ¨¡å‹åŠ è½½æˆåŠŸ!" << endl;
 
-    // 3. ÉèÖÃ¼ÆËãºó¶Ë
+    // 3. è®¾ç½®è®¡ç®—åç«¯
     net.setPreferableBackend(DNN_BACKEND_OPENCV);
     net.setPreferableTarget(DNN_TARGET_CPU);
 
-    // 4. ¶ÁÈ¡ÊäÈëÍ¼Æ¬
-    cout << "ÕıÔÚ¼ÓÔØÊäÈëÍ¼Æ¬..." << endl;
+    // 4. è¯»å–è¾“å…¥å›¾ç‰‡
+    cout << "æ­£åœ¨åŠ è½½è¾“å…¥å›¾ç‰‡..." << endl;
     Mat image = imread(image_path);
 
     if (image.empty()) {
-        cerr << "´íÎó: ÎŞ·¨¼ÓÔØÍ¼Æ¬!" << endl;
+        cerr << "é”™è¯¯: æ— æ³•åŠ è½½å›¾ç‰‡!" << endl;
         return -1;
     }
-    cout << "Í¼Æ¬¼ÓÔØ³É¹¦! ³ß´ç: " << image.size() << endl;
+    cout << "å›¾ç‰‡åŠ è½½æˆåŠŸ! å°ºå¯¸: " << image.size() << endl;
 
-    // 5. Í¼ÏñÔ¤´¦Àí
-    cout << "ÕıÔÚÔ¤´¦ÀíÍ¼Ïñ..." << endl;
+    // 5. å›¾åƒé¢„å¤„ç†
+    cout << "æ­£åœ¨é¢„å¤„ç†å›¾åƒ..." << endl;
     Mat blob;
 
-    // ResNet±ê×¼Ô¤´¦Àí: 224x224, ¹éÒ»»¯²ÎÊı
+    // ResNetæ ‡å‡†é¢„å¤„ç†: 224x224, å½’ä¸€åŒ–å‚æ•°
     blobFromImage(image, blob, 1.0 / 255.0, Size(224, 224),
         Scalar(0.485, 0.456, 0.406), true, false);
 
-    // 6. Ö´ĞĞÍÆÀí
-    cout << "ÕıÔÚÖ´ĞĞÄ£ĞÍÍÆÀí..." << endl;
+    // 6. æ‰§è¡Œæ¨ç†
+    cout << "æ­£åœ¨æ‰§è¡Œæ¨¡å‹æ¨ç†..." << endl;
     net.setInput(blob);
     Mat output;
     net.forward(output);
 
-    // 7. ´¦ÀíÊä³ö½á¹û
-    cout << "ÕıÔÚ´¦ÀíÍÆÀí½á¹û..." << endl;
+    // 7. å¤„ç†è¾“å‡ºç»“æœ
+    cout << "æ­£åœ¨å¤„ç†æ¨ç†ç»“æœ..." << endl;
 
-    // ½«Êä³ö×ª»»Îª¸ÅÂÊ
+    // å°†è¾“å‡ºè½¬æ¢ä¸ºæ¦‚ç‡
     Mat output_reshaped = output.reshape(1, 1);
     Mat probabilities;
     softmax(output_reshaped, probabilities);
 
-    // ÕÒµ½×î¸ß¸ÅÂÊµÄÀà±ğ
+    // æ‰¾åˆ°æœ€é«˜æ¦‚ç‡çš„ç±»åˆ«
     Point class_id;
     double max_prob;
     minMaxLoc(probabilities, nullptr, &max_prob, nullptr, &class_id);
 
-    // 8. »ñÈ¡Àà±ğÃû³Æ
+    // 8. è·å–ç±»åˆ«åç§°
     string class_name = "unknown";
     if (labels.count(class_id.x) > 0) {
         class_name = labels[class_id.x];
     }
 
-    // 9. Êä³ö½á¹û
-    cout << "\n=== ÍÆÀí½á¹û ===" << endl;
+    // 9. è¾“å‡ºç»“æœ
+    cout << "\n=== æ¨ç†ç»“æœ ===" << endl;
     cout << "class_ID: " << class_id.x << endl;
     cout << "class_Name: " << class_name << endl;
     cout << "confidence: " << max_prob << endl;
@@ -147,3 +147,4 @@ int main() {
 
     return 0;
 }
+
