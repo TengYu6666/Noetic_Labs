@@ -75,7 +75,7 @@ make
 示例：
 
 ```bash
-./tuilimoxing resnet18_imagenet.onnx putao.jpg imagenet_class_index.csv
+./tuilimoxing resnet18_imagenet.onnx banana1.jpg imagenet_class_index.csv
 ```
 
 ## 项目结构
@@ -87,6 +87,7 @@ tuilimoxing/
 │   ├── main.cpp        # 主要源代码
 ├── imagenet_class_index.csv  # ImageNet 类别索引
 ├── resnet18_imagenet.onnx    # ONNX 模型文件
-└── banana.jpg            # 测试图像
+└── banana1.jpg            # 测试图像
 
 ```
+
