@@ -13,7 +13,7 @@
 ## 技术栈
 
 - C++11/14
-- OpenCV 4.5+
+- OpenCV 12
 - ONNX Runtime (可选)
 - CMake 3.16+
 
@@ -63,7 +63,7 @@ make
 ### 准备文件
 
 - ONNX 模型文件 (如：`resnet18_imagenet.onnx`)
-- 测试图像文件 (如：`putao.jpg`)
+- 测试图像文件 (如：`banana.jpg`)
 - 类别索引 CSV 文件 (如：`imagenet_class_index.csv`)
 
 ### 运行程序
@@ -88,4 +88,5 @@ tuilimoxing/
 ├── imagenet_class_index.csv  # ImageNet 类别索引
 ├── resnet18_imagenet.onnx    # ONNX 模型文件
 └── banana.jpg            # 测试图像
+
 ```
