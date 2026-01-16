@@ -73,7 +73,7 @@ resnet18_dataset01.onnx 使用 pytoech模型转onnx模型.py转化dataset101.pth
 ONNX Model Inference with OpenCV/
 ├── README.md                                 # 项目说明文档
 ├── ONNX Model Inference with OpenCV/         # 主项目目录
-│   ├── main.cpp                           # 主要源代码
+├── infer.cpp                           # 主要源代码
 ├── pytoech模型转onnx模型.py
 ├── imagenet_class_index.csv                  # ImageNet 类别索引
 ├── resnet18_dataset01.onnx                    # ONNX 模型文件
