@@ -49,9 +49,9 @@ make
 
 ### 准备文件
 
-- ONNX 模型文件 (如：`resnet18_imagenet.onnx`)
+- ONNX 模型文件 (如：`resnet18_dataset101.onnx`)
 - 测试图像文件 (如：`banana.jpg`)
-- 类别索引 CSV 文件 (如：`imagenet_class_index.csv`)
+- 类别索引 CSV 文件 (如：`dataset101.csv`)
 
 ### 运行程序
 
@@ -62,8 +62,10 @@ make
 示例：
 
 ```bash
-./ONNX Model Inference with OpenCV resnet18_imagenet.onnx banana1.jpg imagenet_class_index.csv
+./ONNX Model Inference with OpenCV resnet18_imagenet.onnx banana1.jpg dataset101.csv
 ```
+### 4. 模型
+resnet18_dataset01.onnx 使用 pytoech模型转onnx模型.py转化dataset101.pht得到
 
 ## 项目结构
 
@@ -71,9 +73,10 @@ make
 ONNX Model Inference with OpenCV/
 ├── README.md                                 # 项目说明文档
 ├── ONNX Model Inference with OpenCV/         # 主项目目录
-│   ├── main.cpp                              # 主要源代码
+│   ├── main.cpp                           # 主要源代码
+├── pytoech模型转onnx模型.py
 ├── imagenet_class_index.csv                  # ImageNet 类别索引
-├── resnet18_imagenet.onnx                    # ONNX 模型文件
+├── resnet18_dataset01.onnx                    # ONNX 模型文件
 └── banana1.jpg                               # 测试图像
 
 ``
