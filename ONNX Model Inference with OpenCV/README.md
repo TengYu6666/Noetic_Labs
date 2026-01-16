@@ -65,7 +65,7 @@ make
 ./ONNX Model Inference with OpenCV resnet18_imagenet.onnx banana1.jpg dataset101.csv
 ```
 ### 4. 模型
-resnet18_dataset01.onnx 使用 pytoech模型转onnx模型.py转化dataset101.pht得到
+resnet18_dataset01.onnx 使用 pytoech模型转onnx模型.py转化dataset101.pth得到
 
 ## 项目结构
 
