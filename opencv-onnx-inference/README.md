@@ -73,7 +73,7 @@ resnet18_dataset101.onnx 使用 pytorch_to_onnx.py 转化 model_weights.pth 得�
 opencv-onnx-inference/
 ├── README.md                                 # 项目说明文档
 ├── opencv-onnx-inference/                    # 主项目目录
-│   ├── main.cpp                           # 主要源代码
+│   ├── inference.cpp                           # 主要源代码
 ├── pytorch_to_onnx.py                       # PyTorch 转 ONNX 脚本
 ├── class_labels.csv                         # 类别标签文件
 ├── resnet18_dataset101.onnx                 # ONNX 模型文件
