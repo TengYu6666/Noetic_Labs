@@ -50,33 +50,34 @@ make
 ### 准备文件
 
 - ONNX 模型文件 (如：`resnet18_dataset101.onnx`)
-- 测试图像文件 (如：`banana.jpg`)
-- 类别索引 CSV 文件 (如：`dataset101.csv`)
+- 测试图像文件 (如：`sample_image.jpg`)
+- 类别索引 CSV 文件 (如：`class_labels.csv`)
 
 ### 运行程序
 
 ```bash
-./ONNX Model Inference with OpenCV<model-path> <image-path> <csv-path>
+./opencv-onnx-inference <model-path> <image-path> <csv-path>
 ```
 
 示例：
 
 ```bash
-./ONNX Model Inference with OpenCV resnet18_imagenet.onnx banana1.jpg dataset101.csv
+./opencv-onnx-inference resnet18_dataset101.onnx sample_image.jpg class_labels.csv
 ```
 ### 4. 模型
-resnet18_dataset01.onnx 使用 pytoech模型转onnx模型.py转化dataset101.pth得到
+resnet18_dataset101.onnx 使用 pytorch_to_onnx.py 转化 model_weights.pth 得到
 
 ## 项目结构
 
 ```
-ONNX Model Inference with OpenCV/
+opencv-onnx-inference/
 ├── README.md                                 # 项目说明文档
-├── ONNX Model Inference with OpenCV/         # 主项目目录
+├── opencv-onnx-inference/                    # 主项目目录
 │   ├── main.cpp                           # 主要源代码
-├── pytoech模型转onnx模型.py
-├── imagenet_class_index.csv                  # ImageNet 类别索引
-├── resnet18_dataset01.onnx                    # ONNX 模型文件
-└── banana1.jpg                               # 测试图像
+├── pytorch_to_onnx.py                       # PyTorch 转 ONNX 脚本
+├── class_labels.csv                         # 类别标签文件
+├── resnet18_dataset101.onnx                 # ONNX 模型文件
+├── model_weights.pth                        # PyTorch 模型权重
+└── sample_image.jpg                         # 测试图像
 
-``
+```

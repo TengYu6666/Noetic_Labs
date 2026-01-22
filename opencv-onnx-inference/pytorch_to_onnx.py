@@ -3,7 +3,7 @@ from torchvision import models
 
 # 有 GPU 就用 GPU，没有就用 CPU
 device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
-model = torch.load('dataset101.pth')
+model = torch.load('model_weights.pth')
 model = model.eval().to(device)
 x = torch.randn(1, 3, 256, 256).to(device)
 
